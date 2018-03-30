@@ -1,0 +1,81 @@
+\documentclass[spanish, fleqn]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fourier}
+\usepackage{icomma}
+\usepackage{amsmath, amsfonts, amsthm, fourier}
+\usepackage[colorlinks, urlcolor=blue]{hyperref}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\newcommand{\num}{1}
+\title{Tarea \num\\
+       \large Algoritmos y Complejidad\\[3ex]
+       \emph{``Tonteando\ldots''}}
+\author{Algorithm Knaves}
+\date{2018-03-26}
+
+\begin{document}
+
+\maketitle
+
+  Es común querer saber el valor de la función inversa:
+  \begin{align*}
+    y
+      &= f(x) \\
+    x
+      &= f^{-1}(y)
+  \end{align*}
+  Sabemos que \(f^{-1}\) no siempre está definida.
+  Para los efectos presentes,
+  suponga que existe.
+
+  El problema se hace entretenido si \(f\)
+  solo se conoce en puntos discretos\ldots
+  Una manera de aproximar \(f^{-1}(y^*)\)
+  es interpolar \(f\) para valores adecuados de \(x\)
+  y resolver la ecuación \(f(x^*) = y^*\)
+  usando un método numérico.
+  \begin{enumerate}
+  \item % 20181t1p1
+    Considere los valores del cuadro~\ref{tab:20181t1p1t1}.
+    \begin{table}[ht]
+      \centering
+      \begin{tabular}{rr}
+        \multicolumn{1}{c}{\(\mathbf{x}\)} &
+           \multicolumn{1}{c}{\(\mathbf{y}\)} \\
+        \hline
+        -1,000 & 0,038 \\
+        -0,600 & 0,100 \\
+        -0,467 & 0,155 \\
+        -0,200 & 0,500 \\
+        -0,067 & 0,900
+      \end{tabular}
+      \caption{Tabla de valores de \(f\)}
+      \label{tab:20181t1p1t1}
+    \end{table}
+    Escriba una función en Python
+    que toma arreglos \(X\) e \(Y\) de los valores dados,
+    y un valor de \(x\)
+    y obtiene el valor interpolado de \(y\) correspondiente.
+  \item % 20181t1p2
+    Escriba una función Python
+    que implementa el método de la secante,
+    dada la función \(f\), puntos iniciales \(x_0\) y \(x_1\)
+    y una tolerancia.
+  \item % 20181t1p3
+    Use las anteriores para aproximar \(f^{-1}(0,3)\).
+  \item % 20181t1p4
+    Otra forma de hacerlo es considerar \(x\) una función de \(y\),
+    usando interpolación inversa.
+    Use sus funciones con esta idea para aproximar \(f^{-1}(0,3)\).
+  \end{enumerate}
+
+\input{condiciones}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
