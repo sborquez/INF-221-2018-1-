@@ -47,9 +47,9 @@ def main():
     g = lambda x:  interpolate(x, X, Y) - 0.3
     
     # Buscamos su raíz, la que se debe encontrar entre -0.4 y -0.2
-    xs = secMethod(g, -0.39, -0.19, 1E-10)
+    xs = secMethod(g, -0.468, -0.19, 1E-10)
 
-    print(xs, interpolate(xs, X, Y))
+    print(xs)
 
 
 

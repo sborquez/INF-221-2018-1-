@@ -12,12 +12,6 @@ def interpolate(x, X, Y):
     los puntos conocidos (X,Y) de una funcion f.
     
     Se utiliza la fórmula baricéntrica de Lagrange.
-
-    Argumentos:
-        x:  valor real (float) que se desea  obtener y = f(x).
-        
-        X:  ndarray de las componentes x de los puntos conocidos de f.
-        Y:  ndarray de las componentes y de los puntos conocidos de f, donde yi = f(xi) para cada xi en X.
     """
     
     # Para cada j en [0,n]
