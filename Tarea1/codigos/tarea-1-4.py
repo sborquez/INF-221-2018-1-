@@ -11,14 +11,20 @@ def interpolate(x, X, Y):
     interpolate obtiene el valor interpolado 'y' para un 'x' usando
     los puntos conocidos (X,Y) de una funcion f.
     
-    Se utiliza la fórmula baricéntrica de Lagrange.
+    Se utiliza la fórmula diferencias dividas de Newton.
     """
-    w = [np.prod(X[j] - X[X != X[j]]) for j in range(len(X))]
-    W = np.power(np.array(w), -1)
-    diff = x - X    
-    num = np.sum(W*Y / diff)
-    den = np.sum(W / diff)
-    return num/den
+    A = list(Y)
+    for i in range(1, len(A)):
+        for j in range(len(A)-1, i-1, -1):
+            A[j] = (A[j] - A[j - 1]) / (X[j] - X[j-i])
+    
+    x_diff = 1
+    y = A[0] * x_diff
+    
+    for i in range(0, len(X)-1):
+        x_diff *= (x - X[i])
+        y += A[i+1] * x_diff
+    return y
 
 
 def main():

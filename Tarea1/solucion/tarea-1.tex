@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fourier}
 \usepackage{icomma}
-\usepackage{amsmath, amsfonts, amsthm, fourier}
+\usepackage{amsmath, amsfonts, amsthm, fourier, amssymb}
 \usepackage[colorlinks, urlcolor=blue]{hyperref}
 \usepackage{graphicx}
 \usepackage{listings}
@@ -16,7 +16,7 @@
        \large Algoritmos y Complejidad\\[3ex]
        \emph{``Tonteando\ldots''}}
 \author{Sebastián Bórquez González\\201573015-6}
-\date{2018-03-26}
+\date{2 de Abril, 2018}
 
 \begin{document}
 
@@ -34,7 +34,57 @@
 		
   \begin{enumerate}
   \item % 20181t1p1
-  Se decide utilizar el algoritmo de Lagrange
+  Dado una lista puntos $(x,y)$ se debe crear una función para poder interpolar utilizando estos puntos el valor de $y$ para un nuevo valor de $x$. 
+  
+  Se decide implementar de manera implícita. Se compararán dos métodos implicitos: \textbf{Lagrange} y \textbf{Newton}.
+  
+  Para Lagrange, dado a la complejidad $O(n^2)$ de la forma original se implementará \textbf{Lagrange Baricentrico}, el cual es recomendable dado que es númericamente estable.
+  
+Esta forma pide calcular: 
+
+	$$p(x) = \frac{\sum_{0\leq j\leq n}\frac{w_i f(x_i)}{x-x_j}}{\sum_{0\leq j\leq n}{\frac{w_i}{x-x_j}}}$$  
+   
+    $$w_i = \left( \prod_{0\leq k\leq n}[k \neq j] (x_j - x_k) \right)^{-1}$$
+    
+    Esta forma nos entrega una versión fácil de vectorizar, debido a terminos frecuentes y a operaciones que se realizan dentro de iteraciones (sumatoría y multiplicatoria).
+    
+    Para Newton, se utiliza \textbf{Diferencias divididas}, el algoritmo se separa en dos partes: Calcular los coeficientes $A_i$ del polinomio utilizando las diferencias divididas. Luego armar el polinomio usando:
+    
+    $$p(x)=\sum_{0\leq i\leq n-1}\left( A_i \prod_{0\leq j \leq i-2}(x - x_j)\right)$$
+    
+    Como resultados obtenemos:
+    
+   \begin{figure}[h]
+    \caption{Interpolación de los puntos}
+    \centering 
+ 	\includegraphics[scale=0.6]{interpolacion1.png}
+   \end{figure}
+  
+	Como se puede observar, ambos métodos generan al mismo polinomio.
+	
+	Pero, ¿Cuál método elegir?
+	Se realizaron unas pruebas de velocidad y error para dos cantidades de puntos de una función $f(x) = cos(x) + 2 sin(x) + 0.5x$.
+	
+	Se utilizan dos 5 y 50 puntos equiespaciados en $[-2\pi, 2\pi]$. Luego se calcula el error en todo el rango $[-2\pi, 2\pi]$.
+		\begin{center}
+	\begin{tabular}{|l|c|c|l|}
+	\hline
+	Puntos & Lagrange T$[\mu s]$& Newton T$[\mu s]$& $\frac{\text{Error}_{Lagrange}}{\text{Error}_{Newton}}$\\
+	\hline
+	5	& 49.7 & 9.38 & $\thickapprox$ 1\\
+	\hline
+	50 & 353 & 518 & $\thickapprox$ 100\\
+	\hline
+	\end{tabular}
+	
+
+	\small{\textit{Tiempo calculado usando '\%timeit'}}
+	\end{center}
+  
+  
+  Como conclusión, podemos observar que para pocos puntos, mi implementación del método de Newton es más rápido, aunque ambos tienen el mismo error. En el caso de darnos más puntos, mi implementación de Lagrange es más rápida, pero tiene un mayor error.
+  
+  Dado el caso particular de este problema, al ser solo 5 puntos, se decide usar la implementación de \textbf{diferencias divididas}.
   
   \item % 20181t1p2
   Se nos pide implementar el método de la secante, lo cual se hace de manera bastante directa. Partiendo con $x_0$ , $x_1$ se calculan valores sucesivos usando:
@@ -66,7 +116,7 @@
   
 	Finalmente, el resultado de nuestro calculo resultó:
 	
-		$$x^* = -0.31190496815431701$$  
+		$$x^* = -0.31190496815431695$$  
   
   \item % 20181t1p4
   
@@ -74,7 +124,7 @@
   
   Este método aparenta ser una forma correcta y directa para obtener el valor $x^*$. Sin embargo, como resultado obtenemos un valor diferente al calculado en la respuesta anterior.
   
-  $$x^* = -0.50864947547118655$$
+  $$x^* = -0.50864947547118666$$
   
    \begin{figure}[h]
 	\caption{Polinomio de interpolación de $f^{-1}$}   
