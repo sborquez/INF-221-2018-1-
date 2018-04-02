@@ -53,25 +53,26 @@ def interpolate_newton(x, X, Y):
     # Por cada "nivel" de diferencias
     # Nos saltamos al primer nivel, ya que son los mismos valores de Y
     for i in range(1, len(A)):
-        # Por cada Coeficiente
-        # Los menores a i ya están en su valor definitivo
-        
+        # Los valores en A[<i] ya tienen su valor del coeficiente 
+                
         # Vamos de atrás hacia adelanta para que al actualizar
         # los valores de A[j], los valores modicados no son usados
-        # en la misma iteración sobre 'i'.
+        # en la siguiente iteración sobre 'j'.
         for j in range(len(A)-1, i-1, -1):
             # A[j] - A[j - 1] es la diferencia de f[xj xj-1 ...x_k+1] - f[x_j x_j-1 ...x_k]
             # X[j] - X[j-i] es la diferencia de x_j - x_k 
             A[j] = (A[j] - A[j - 1]) / (X[j] - X[j-i])
     
-    # Valor que multiplica a los coeficientes A_i. (x-x0)*(x-x1)...
+    # Una vez calculados los coeficientes, evaluamos al polinomio.
+
+    # Valor que multiplica a los coeficientes A_i. (x-x0)*(x-x1)...(x-x{i-1})
     x_diff = 1
     y = A[0] * x_diff
     
-    # Por cada coeficiente (desde A_1) 
+    # Por cada coeficiente desde A_1 
     for i in range(0, len(X)-1):
         # Cada iteracion multiplica la diferencia de x con un nuevo 
-        # x de la tabla, luego lo multiplica por el coeficiente
+        # xi de la tabla, luego lo multiplica por el coeficiente.
         x_diff *= (x - X[i])
         y += A[i+1] * x_diff
     return y
